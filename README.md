@@ -77,11 +77,5 @@ model.
 ---
 
 ## Architecture Diagram
+![Architecture diagram](docs/Architectural_Diagram.svg)
 
-![Architecture diagram](docs/architecture_diagram.png)
-
-The diagram above shows the full lifecycle: the offline training
-pipeline (dataset → preprocessing → model training → saved pipeline)
-feeding into the live REST service (client request → Pydantic
-validation → either an `HTTP 422` rejection or a model prediction →
-`HTTP 200` response back to the client).
