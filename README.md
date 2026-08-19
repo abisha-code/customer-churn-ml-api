@@ -77,5 +77,5 @@ model.
 ---
 
 ## Architecture Diagram
-![Architecture diagram](docs/Architectural_Diagram.svg)
+![Architecture diagram](Architectural_Diagram.svg)
 
