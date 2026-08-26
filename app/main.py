@@ -3,6 +3,7 @@ os.environ["OMP_NUM_THREADS"] = "1"
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 os.environ["MKL_NUM_THREADS"] = "1"
 
+import uuid
 from contextlib import asynccontextmanager
 
 import joblib
@@ -30,6 +31,12 @@ def root():
     return {"message": "ML API is alive"}
 
 
+@app.get("/health")
+def health():
+    model_loaded = getattr(app.state, "model", None) is not None
+    return {"status": "ok", "model_loaded": model_loaded}
+
+
 @app.post("/predict")
 def predict(customer: PredictionInput):
     input_df = pd.DataFrame([customer.model_dump(by_alias=True)])
@@ -41,4 +48,5 @@ def predict(customer: PredictionInput):
     return {
         "prediction": "Churn" if prediction == 1 else "No Churn",
         "confidence": round(float(probability), 4),
+        "request_id": str(uuid.uuid4()),
     }
