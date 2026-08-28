@@ -83,3 +83,11 @@ class PredictionInput(BaseModel):
         "Bank transfer (automatic)",
         "Credit card (automatic)",
     ] = Field(..., alias="Payment Method")
+
+
+
+class PredictionOutput(BaseModel):
+    prediction: str
+    confidence: float
+    model_version: str
+    request_id: str
