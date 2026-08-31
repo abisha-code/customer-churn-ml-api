@@ -1,5 +1,4 @@
-from typing import Literal
-
+from typing import List, Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -84,10 +83,24 @@ class PredictionInput(BaseModel):
         "Credit card (automatic)",
     ] = Field(..., alias="Payment Method")
 
-
-
 class PredictionOutput(BaseModel):
     prediction: str
     confidence: float
     model_version: str
     request_id: str
+
+class PredictionBatchInput(BaseModel):
+    customers: List[PredictionInput] = Field(..., min_length=1, max_length=100)
+
+
+class PredictionBatchOutput(BaseModel):
+    predictions: List[PredictionOutput]
+    batch_size: int
+    request_id: str
+
+
+class ModelInfo(BaseModel):
+    model_type: str
+    model_version: str
+    trained_on: str
+    features: List[str]
