@@ -2,18 +2,16 @@ import logging
 import logging.handlers
 import os
 
+from app.config import settings
+
 LOG_DIR = "logs"
 LOG_FILE = os.path.join(LOG_DIR, "app.log")
 
 
 def setup_logging():
     os.makedirs(LOG_DIR, exist_ok=True)
-
     logger = logging.getLogger("churn_api")
-    logger.setLevel(logging.INFO)
-
-    # Prevent duplicate handlers if this gets called more than once
-    # (e.g. due to --reload re-importing the module)
+    logger.setLevel(settings.LOG_LEVEL)
     if logger.handlers:
         return logger
 
@@ -24,13 +22,13 @@ def setup_logging():
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
-    console_handler.setLevel(logging.INFO)
+    console_handler.setLevel(settings.LOG_LEVEL)
 
     file_handler = logging.handlers.RotatingFileHandler(
         LOG_FILE, maxBytes=1_000_000, backupCount=3
     )
     file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(settings.LOG_LEVEL)
 
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)

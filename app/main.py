@@ -11,21 +11,20 @@ import joblib
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from app.config import settings
 from app.logging_config import logger
 from app.routers import v1
-
-MODEL_PATH = "ml/saved_model/model.joblib"
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.model = joblib.load(MODEL_PATH)
-    logger.info(f"Model loaded successfully from {MODEL_PATH}")
+    app.state.model = joblib.load(settings.MODEL_PATH)
+    logger.info(f"Model loaded successfully from {settings.MODEL_PATH}")
     yield
     logger.info("Shutting down. Model unloaded.")
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(title=settings.API_TITLE, lifespan=lifespan)
 app.include_router(v1.router)
 
 

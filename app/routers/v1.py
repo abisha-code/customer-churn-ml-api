@@ -1,6 +1,7 @@
 import time
 import uuid
 
+from app.config import settings
 from fastapi import APIRouter, HTTPException, Request
 import pandas as pd
 
@@ -74,8 +75,18 @@ def model_info():
 def predict_batch(batch: PredictionBatchInput, request: Request):
     app = request.app
     request_id = request.state.request_id
-    start_time = time.time()
 
+    if len(batch.customers) > settings.MAX_BATCH_SIZE:
+        logger.error(
+            f"request_id={request_id} event=batch_size_exceeded "
+            f"batch_size={len(batch.customers)} max_allowed={settings.MAX_BATCH_SIZE}"
+        )
+        raise HTTPException(
+            status_code=400,
+            detail=f"Batch size {len(batch.customers)} exceeds maximum allowed ({settings.MAX_BATCH_SIZE})",
+        )
+
+    start_time = time.time()
     input_df = pd.DataFrame(
         [c.model_dump(by_alias=True) for c in batch.customers]
     )
