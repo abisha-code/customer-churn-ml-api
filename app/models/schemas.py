@@ -104,3 +104,10 @@ class ModelInfo(BaseModel):
     model_version: str
     trained_on: str
     features: List[str]
+
+
+class PredictionOutputV2(BaseModel):
+    prediction: str
+    probabilities: dict
+    model_version: str
+    request_id: str

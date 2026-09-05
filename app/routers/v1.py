@@ -1,6 +1,6 @@
 import time
 import uuid
-
+from app.services.prediction_service import run_prediction
 from app.config import settings
 from fastapi import APIRouter, HTTPException, Request
 import pandas as pd
@@ -37,18 +37,16 @@ def health(request: Request):
 def predict(customer: PredictionInput, request: Request):
     app = request.app
     request_id = request.state.request_id
-    input_df = pd.DataFrame([customer.model_dump(by_alias=True)])
 
     try:
         model = app.state.model
-        prediction = model.predict(input_df)[0]
-        probability = model.predict_proba(input_df)[0][1]
+        prediction, probability = run_prediction(model, customer)
     except Exception as e:
         logger.error(f"request_id={request_id} event=prediction_failed error={e}")
         raise HTTPException(status_code=500, detail="Prediction failed")
 
     result = "Churn" if prediction == 1 else "No Churn"
-    confidence = round(float(probability), 4)
+    confidence = round(probability, 4)
     logger.info(
         f"request_id={request_id} event=prediction_success "
         f"prediction={result} confidence={confidence}"
@@ -59,7 +57,6 @@ def predict(customer: PredictionInput, request: Request):
         "model_version": MODEL_VERSION,
         "request_id": request_id,
     }
-
 
 @router.get("/model-info", response_model=ModelInfo)
 def model_info():
