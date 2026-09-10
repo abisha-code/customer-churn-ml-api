@@ -21,9 +21,23 @@ VALID_CUSTOMER = {
 }
 
 
+API_HEADERS = {
+    "X-API-Key": "supersecretkey123"
+}
+
+
 def test_v1_and_v2_predict_return_different_but_individually_correct_shapes(client):
-    v1_response = client.post("/api/v1/predict", json=VALID_CUSTOMER)
-    v2_response = client.post("/api/v2/predict", json=VALID_CUSTOMER)
+    v1_response = client.post(
+        "/api/v1/predict",
+        json=VALID_CUSTOMER,
+        headers=API_HEADERS,
+    )
+
+    v2_response = client.post(
+        "/api/v2/predict",
+        json=VALID_CUSTOMER,
+        headers=API_HEADERS,
+    )
 
     assert v1_response.status_code == 200
     assert v2_response.status_code == 200

@@ -1,5 +1,6 @@
 import uuid
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
+from app.security import verify_api_key
 from app.models.schemas import PredictionInput, PredictionOutputV2
 from app.services.prediction_service import run_prediction
 
@@ -7,7 +8,11 @@ router = APIRouter(prefix="/api/v2")
 MODEL_VERSION = "2.0.0"
 
 
-@router.post("/predict", response_model=PredictionOutputV2)
+@router.post(
+"/predict",
+response_model=PredictionOutputV2,
+dependencies=[Depends(verify_api_key)]
+)
 def predict(customer: PredictionInput, request: Request):
     app = request.app
     request_id = getattr(request.state, "request_id", str(uuid.uuid4()))

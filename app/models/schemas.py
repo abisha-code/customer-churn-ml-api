@@ -1,10 +1,12 @@
 from typing import List, Literal
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
 class PredictionInput(BaseModel):
     model_config = ConfigDict(
         populate_by_name=True,
+        extra="forbid",
         json_schema_extra={
             "example": {
                 "Tenure Months": 12,
@@ -31,57 +33,112 @@ class PredictionInput(BaseModel):
     )
 
     tenure_months: int = Field(
-        ..., ge=0, le=100, alias="Tenure Months",
-        description="Number of months the customer has stayed with the company"
-    )
-    monthly_charges: float = Field(
-        ..., gt=0, alias="Monthly Charges",
-        description="Current monthly bill amount, must be positive"
-    )
-    total_charges: float = Field(
-        ..., ge=0, alias="Total Charges",
-        description="Total amount charged to the customer so far"
+        ...,
+        ge=0,
+        le=100,
+        alias="Tenure Months",
+        description="Number of months the customer has stayed with the company",
     )
 
-    gender: Literal["Male", "Female"] = Field(..., alias="Gender")
-    senior_citizen: Literal["Yes", "No"] = Field(..., alias="Senior Citizen")
-    partner: Literal["Yes", "No"] = Field(..., alias="Partner")
-    dependents: Literal["Yes", "No"] = Field(..., alias="Dependents")
-    phone_service: Literal["Yes", "No"] = Field(..., alias="Phone Service")
+    monthly_charges: float = Field(
+        ...,
+        gt=0,
+        alias="Monthly Charges",
+        description="Current monthly bill amount, must be positive",
+    )
+
+    total_charges: float = Field(
+        ...,
+        ge=0,
+        alias="Total Charges",
+        description="Total amount charged to the customer so far",
+    )
+
+    gender: Literal["Male", "Female"] = Field(
+        ...,
+        alias="Gender",
+    )
+
+    senior_citizen: Literal["Yes", "No"] = Field(
+        ...,
+        alias="Senior Citizen",
+    )
+
+    partner: Literal["Yes", "No"] = Field(
+        ...,
+        alias="Partner",
+    )
+
+    dependents: Literal["Yes", "No"] = Field(
+        ...,
+        alias="Dependents",
+    )
+
+    phone_service: Literal["Yes", "No"] = Field(
+        ...,
+        alias="Phone Service",
+    )
+
     multiple_lines: Literal["Yes", "No", "No phone service"] = Field(
-        ..., alias="Multiple Lines"
+        ...,
+        alias="Multiple Lines",
     )
+
     internet_service: Literal["DSL", "Fiber optic", "No"] = Field(
-        ..., alias="Internet Service"
+        ...,
+        alias="Internet Service",
     )
+
     online_security: Literal["Yes", "No", "No internet service"] = Field(
-        ..., alias="Online Security"
+        ...,
+        alias="Online Security",
     )
+
     online_backup: Literal["Yes", "No", "No internet service"] = Field(
-        ..., alias="Online Backup"
+        ...,
+        alias="Online Backup",
     )
+
     device_protection: Literal["Yes", "No", "No internet service"] = Field(
-        ..., alias="Device Protection"
+        ...,
+        alias="Device Protection",
     )
+
     tech_support: Literal["Yes", "No", "No internet service"] = Field(
-        ..., alias="Tech Support"
+        ...,
+        alias="Tech Support",
     )
+
     streaming_tv: Literal["Yes", "No", "No internet service"] = Field(
-        ..., alias="Streaming TV"
+        ...,
+        alias="Streaming TV",
     )
+
     streaming_movies: Literal["Yes", "No", "No internet service"] = Field(
-        ..., alias="Streaming Movies"
+        ...,
+        alias="Streaming Movies",
     )
+
     contract: Literal["Month-to-month", "One year", "Two year"] = Field(
-        ..., alias="Contract"
+        ...,
+        alias="Contract",
     )
-    paperless_billing: Literal["Yes", "No"] = Field(..., alias="Paperless Billing")
+
+    paperless_billing: Literal["Yes", "No"] = Field(
+        ...,
+        alias="Paperless Billing",
+    )
+
     payment_method: Literal[
         "Electronic check",
         "Mailed check",
         "Bank transfer (automatic)",
         "Credit card (automatic)",
-    ] = Field(..., alias="Payment Method")
+    ] = Field(
+        ...,
+        alias="Payment Method",
+    )
+
 
 class PredictionOutput(BaseModel):
     prediction: str
@@ -89,8 +146,17 @@ class PredictionOutput(BaseModel):
     model_version: str
     request_id: str
 
+
 class PredictionBatchInput(BaseModel):
-    customers: List[PredictionInput] = Field(..., min_length=1, max_length=1000)
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    customers: List[PredictionInput] = Field(
+        ...,
+        min_length=1,
+        max_length=1000,
+    )
 
 
 class PredictionBatchOutput(BaseModel):
