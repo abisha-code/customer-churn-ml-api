@@ -7,6 +7,7 @@ import pandas as pd
 from app.config import settings
 from app.security import verify_api_key
 from app.services.prediction_service import run_prediction
+from app.metrics import prediction_counter
 from app.logging_config import logger
 from app.models.schemas import (
     PredictionInput, PredictionOutput,
@@ -53,6 +54,9 @@ def predict(customer: PredictionInput, request: Request):
 
     result = "Churn" if prediction == 1 else "No Churn"
     confidence = round(probability, 4)
+
+    prediction_counter.labels(predicted_class=result).inc()
+
     logger.info(
         f"request_id={request_id} event=prediction_success "
         f"prediction={result} confidence={confidence}"
