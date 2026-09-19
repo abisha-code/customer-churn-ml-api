@@ -188,7 +188,7 @@ curl http://localhost:8000/metrics
 
 ## Architecture Diagram
 
-!\[Architecture diagram](Architectural\_Diagram.svg)
+!\[Architecture diagram](Architectural_Diagram.svg)
 
 \---
 
@@ -410,7 +410,7 @@ customer-churn-ml-api/
 ├── requirements.txt
 ├── TESTING.md
 ├── README.md
-└── Architectural\_Diagram.svg
+└── Architectural_Diagram.svg
 ```
 
 \---
