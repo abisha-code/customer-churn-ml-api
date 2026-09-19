@@ -440,7 +440,6 @@ docker compose up --build
 
 \---
 
-## Live Deployment
 
 ## Live Deployment
 
