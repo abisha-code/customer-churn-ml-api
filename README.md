@@ -188,8 +188,7 @@ curl http://localhost:8000/metrics
 
 ## Architecture Diagram
 
-!\[Architecture diagram](Architectural\_Diagram.svg)
-
+![Architecture diagram](Architectural_Diagram.svg)
 \---
 
 ## How to Run This Project
@@ -410,7 +409,7 @@ customer-churn-ml-api/
 ├── requirements.txt
 ├── TESTING.md
 ├── README.md
-└── Architectural\_Diagram.svg
+└── Architectural_Diagram.svg
 ```
 
 \---
@@ -441,9 +440,10 @@ docker compose up --build
 
 \---
 
+
 ## Live Deployment
 
-**URL:** [https://customer-churn-ml-api-6vvp.onrender.com](https://customer-churn-prediction.onrender.com)
+**URL:** [https://customer-churn-ml-api-6vvp.onrender.com](https://customer-churn-ml-api-6vvp.onrender.com)
 
 > Note: free-tier hosting may "spin down" after inactivity — the first request after a period of no traffic can take up to \~60 seconds while the service wakes up.
 
