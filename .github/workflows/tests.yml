@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -25,4 +25,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run unit tests
+        env:
+          MODEL_PATH: ml/saved_model/model.joblib
+          LOG_LEVEL: INFO
+          MAX_BATCH_SIZE: "100"
+          API_TITLE: Customer Churn Prediction API
+          API_KEY: supersecretkey123
+          ALLOWED_ORIGINS: http://localhost:3000
         run: pytest tests/test_health.py tests/test_predict.py tests/test_predict_batch.py tests/test_model_info.py tests/test_v2_predict.py tests/test_security.py -v
