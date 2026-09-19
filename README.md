@@ -443,7 +443,9 @@ docker compose up --build
 
 ## Live Deployment
 
-**URL:** [https://customer-churn-ml-api-6vvp.onrender.com](https://customer-churn-prediction.onrender.com)
+## Live Deployment
+
+**URL:** [https://customer-churn-ml-api-6vvp.onrender.com](https://customer-churn-ml-api-6vvp.onrender.com)
 
 > Note: free-tier hosting may "spin down" after inactivity — the first request after a period of no traffic can take up to \~60 seconds while the service wakes up.
 
