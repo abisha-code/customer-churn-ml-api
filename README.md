@@ -188,8 +188,7 @@ curl http://localhost:8000/metrics
 
 ## Architecture Diagram
 
-!\(Architectural_Diagram.svg)
-
+![Architecture diagram](Architectural_Diagram.svg)
 \---
 
 ## How to Run This Project
