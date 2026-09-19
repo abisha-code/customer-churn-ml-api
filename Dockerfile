@@ -20,4 +20,4 @@ EXPOSE 8000
 # uses to forward host traffic in. Binding to 127.0.0.1 would make the
 # server literally unreachable from outside the container, even with
 # correct port mapping -- requests would just time out.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
